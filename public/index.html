@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Sales Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Login Overlay -->
+    <div id="loginOverlay" class="overlay">
+        <div class="overlay-content">
+            <h2>Login to Fashion Sales System</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Application Shell -->
+    <div id="app" class="app-shell hidden">
+        <!-- Sidebar Navigation -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-brand">
+                <i class="fas fa-tshirt"></i>
+                <span>Fashion Sales</span>
+            </div>
+            <ul class="nav-list">
+                <li><a href="#" data-section="dashboard" class="nav-link active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#" data-section="products" class="nav-link"><i class="fas fa-box"></i> Products</a></li>
+                <li><a href="#" data-section="customers" class="nav-link"><i class="fas fa-users"></i> Customers</a></li>
+                <li><a href="#" data-section="orders" class="nav-link"><i class="fas fa-shopping-cart"></i> Orders</a></li>
+                <li><a href="#" data-section="inventory" class="nav-link"><i class="fas fa-warehouse"></i> Inventory</a></li>
+                <li><a href="#" data-section="insights" class="nav-link"><i class="fas fa-chart-line"></i> Insights</a></li>
+            </ul>
+        </nav>
+
+        <div class="content-wrapper">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1>Fashion Sales Management</h1>
+                </div>
+                <div class="topbar-right">
+                    <span id="userInfo" class="user-info"></span>
+                    <button id="logoutBtn" class="btn btn-secondary btn-sm">Logout</button>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalProducts">0</h3>
+                            <p>Total Products</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalCustomers">0</h3>
+                            <p>Total Customers</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalOrders">0</h3>
+                            <p>Total Orders</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalRevenue">$0</h3>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-alerts">
+                    <div class="alert" id="lowStockAlert">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span id="lowStockCount">0</span> products are low in stock
+                    </div>
+                </div>
+            </section>
+
+            <!-- Products Section -->
+            <section id="products" class="content-section">
+                <div class="section-header">
+                    <h2>Products</h2>
+                    <button id="addProductBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Product
+                    </button>
+                </div>
+                <div class="filters">
+                    <input type="text" id="productSearch" placeholder="Search products..." class="search-input">
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="">All Categories</option>
+                    </select>
+                    <button id="lowStockFilter" class="btn btn-secondary">Low Stock</button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Brand</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Customers Section -->
+            <section id="customers" class="content-section">
+                <div class="section-header">
+                    <h2>Customers</h2>
+                    <button id="addCustomerBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Customer
+                    </button>
+                </div>
+                <div class="filters">
+                    <input type="text" id="customerSearch" placeholder="Search customers..." class="search-input">
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>City</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customersTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Orders Section -->
+            <section id="orders" class="content-section">
+                <div class="section-header">
+                    <h2>Orders</h2>
+                    <button id="addOrderBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> New Order
+                    </button>
+                </div>
+                <div class="filters">
+                    <select id="orderStatusFilter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="processing">Processing</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Inventory Section -->
+            <section id="inventory" class="content-section">
+                <div class="section-header">
+                    <h2>Inventory Management</h2>
+                </div>
+                <div class="inventory-grid">
+                    <div class="inventory-card">
+                        <h3>Low Stock Alert</h3>
+                        <div id="lowStockList" class="low-stock-list">
+                        </div>
+                    </div>
+                    <div class="inventory-card">
+                        <h3>Stock Levels</h3>
+                        <div id="stockLevels" class="stock-levels">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Insights Section -->
+            <section id="insights" class="content-section">
+                <div class="section-header">
+                    <h2>Sales Predictions & Ratings</h2>
+                </div>
+                <div class="table-container" style="margin-bottom: 1.5rem;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Avg Rating</th>
+                                <th>Qty (Last 3m)</th>
+                                <th>Forecast (Next Month)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="predictionsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="insights-grid">
+                    <div class="insights-summary">
+                        <h3>Market Summary</h3>
+                        <div class="summary-metrics">
+                            <div class="summary-item">
+                                <span class="label">Total Revenue</span>
+                                <span id="summaryTotalRevenue" class="value">$0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Total Orders</span>
+                                <span id="summaryTotalOrders" class="value">0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Avg Order Value</span>
+                                <span id="summaryAvgOrderValue" class="value">$0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Top Category</span>
+                                <span id="summaryTopCategory" class="value">N/A</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="best-sellers">
+                        <h3>Top Products</h3>
+                        <div id="bestSellersList" class="best-sellers-list"></div>
+                    </div>
+                </div>
+                <div class="inventory-card">
+                    <h3>Submit Product Rating</h3>
+                    <form id="ratingForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ratingProduct">Product</label>
+                                <select id="ratingProduct" required>
+                                    <option value="">Select Product</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ratingValue">Rating (1-5)</label>
+                                <input type="number" id="ratingValue" min="1" max="5" required>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Submit Rating</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="productModalTitle">Add Product</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="productForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productName">Product Name:</label>
+                        <input type="text" id="productName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productSku">SKU:</label>
+                        <input type="text" id="productSku" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="productDescription">Description:</label>
+                    <textarea id="productDescription" rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productCategory">Category:</label>
+                        <select id="productCategory" required>
+                            <option value="">Select Category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="productBrand">Brand:</label>
+                        <input type="text" id="productBrand">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productPrice">Price:</label>
+                        <input type="number" id="productPrice" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productCost">Cost:</label>
+                        <input type="number" id="productCost" step="0.01">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productSize">Size:</label>
+                        <input type="text" id="productSize">
+                    </div>
+                    <div class="form-group">
+                        <label for="productColor">Color:</label>
+                        <input type="text" id="productColor">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productStock">Stock Quantity:</label>
+                        <input type="number" id="productStock" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productMinStock">Min Stock Level:</label>
+                        <input type="number" id="productMinStock" min="0" value="5">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelProduct">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Customer Modal -->
+    <div id="customerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="customerModalTitle">Add Customer</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="customerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerFirstName">First Name:</label>
+                        <input type="text" id="customerFirstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerLastName">Last Name:</label>
+                        <input type="text" id="customerLastName" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerEmail">Email:</label>
+                        <input type="email" id="customerEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerPhone">Phone:</label>
+                        <input type="tel" id="customerPhone">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="customerAddress">Address:</label>
+                    <input type="text" id="customerAddress">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerCity">City:</label>
+                        <input type="text" id="customerCity">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerState">State:</label>
+                        <input type="text" id="customerState">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerZip">ZIP Code:</label>
+                        <input type="text" id="customerZip">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerCountry">Country:</label>
+                        <input type="text" id="customerCountry">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelCustomer">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Customer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2 id="orderModalTitle">New Order</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="orderForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="orderCustomer">Customer:</label>
+                        <select id="orderCustomer" required>
+                            <option value="">Select Customer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="orderPaymentMethod">Payment Method:</label>
+                        <select id="orderPaymentMethod">
+                            <option value="cash">Cash</option>
+                            <option value="card">Card</option>
+                            <option value="bank_transfer">Bank Transfer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="order-items">
+                    <h3>Order Items</h3>
+                    <div class="add-item-row">
+                        <select id="orderProduct" class="product-select">
+                            <option value="">Select Product</option>
+                        </select>
+                        <input type="number" id="orderQuantity" placeholder="Quantity" min="1" value="1">
+                        <button type="button" id="addOrderItem" class="btn btn-secondary">Add Item</button>
+                    </div>
+                    <div class="order-items-list">
+                        <table class="order-items-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orderItemsTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="order-summary">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="orderSubtotal">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax (8%):</span>
+                        <span id="orderTax">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Discount:</span>
+                        <input type="number" id="orderDiscount" step="0.01" min="0" value="0">
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span id="orderTotal">$0.00</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="orderNotes">Notes:</label>
+                    <textarea id="orderNotes" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelOrder">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div id="chatbot" class="chatbot">
+        <div class="chatbot-header">
+            <span><i class="fas fa-robot"></i> Assistant</span>
+            <button id="chatbotClose" aria-label="Close" class="chatbot-close">&times;</button>
+        </div>
+        <div id="chatbotMessages" class="chatbot-messages"></div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbotInput" placeholder="Ask me to navigate or for help..." />
+            <button id="chatbotSend" class="btn btn-primary">Send</button>
+        </div>
+    </div>
+    <button id="chatbotToggle" class="chatbot-toggle" title="Open Assistant">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>
